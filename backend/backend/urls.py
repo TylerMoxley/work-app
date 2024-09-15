@@ -27,5 +27,6 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('login/', LoginView.as_view(), name='login'),
-    path('api/', include('bills.urls')),  # Include the bills app's URLs
+    path('api/', include('bills.urls')),
+    path('zendesk/', include('zendesk.urls')),
 ]

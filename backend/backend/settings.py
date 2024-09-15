@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users',
     'items',
     'bills',
+    'zendesk',
     'rest_framework',
     'rest_framework_simplejwt',
 ]
@@ -65,6 +66,11 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
+
+# Zendesk API settings (add these lines)
+ZENDESK_SUBDOMAIN = 'moxxai.zendesk.com/'  # Replace with your Zendesk subdomain
+ZENDESK_EMAIL = 'tgmoxley@gmail.com'       # Replace with your Zendesk account email
+ZENDESK_API_TOKEN = 'FBjcr8FScPts9slMRibU6pA8XAN4bZMgsCsL6neQ' # Replace with your Zendesk API token
 
 ROOT_URLCONF = 'backend.urls'
 
