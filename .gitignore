@@ -1,1 +1,12 @@
 venv/
+# Python bytecode files
+*.pyc
+__pycache__/
+
+# Local SQLite database
+db.sqlite3
+
+# Backup folder and workspace folder (if you don’t want them tracked)
+frontend_backup/
+work-app/
+
