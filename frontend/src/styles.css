@@ -1,0 +1,60 @@
+/* You can add global styles to this file, and also import other style files */
+/* Global dark theme variables */
+:root {
+    --background-color: #121212;
+    --text-color: #e0e0e0;  /* Lighter than white, but still easy to read */
+    --input-background-color: #2c2c2c;  /* Darker background for input fields */
+    --input-text-color: #e0e0e0;  /* Slightly darker text color for input fields */
+    --input-border-color: #444444;  /* Border color for input fields */
+    --primary-color: #bb86fc;
+    --secondary-color: #03dac6;
+  }
+  
+  /* Apply these variables to your app */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Style for input fields */
+  input[type="text"],
+  input[type="password"],
+  textarea {
+    background-color: var(--input-background-color);
+    color: var(--input-text-color);
+    border: 1px solid var(--input-border-color);
+    padding: 10px;
+    border-radius: 5px;
+    width: 25%;
+    box-sizing: border-box;
+  }
+  
+  /* Focus state for inputs */
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);  /* Optional: Add focus color */
+  }
+  
+  .primary-button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .secondary-button {
+    background-color: var(--secondary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Additional styles as needed */
+  

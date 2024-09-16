@@ -1,0 +1,55 @@
+/* Dark background for the full screen */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #121212;  /* Dark background color */
+  }
+  
+  /* Dark mode styling for the login box */
+  .login-box {
+    background-color: #1e1e1e;  /* Dark background for the box */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  /* Form element styling */
+  .form-group label {
+    color: #ffffff;  /* White text */
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #333;  /* Dark border */
+    border-radius: 4px;
+    background-color: #2a2a2a;  /* Dark input background */
+    color: #ffffff;  /* White input text */
+    font-size: 16px;
+  }
+  
+  .login-button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;  /* Primary blue button */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-button:disabled {
+    background-color: #555;  /* Disabled button color */
+  }
+  
+  @media (max-width: 768px) {
+    .login-box {
+      margin: 0 20px;
+    }
+  }
+  

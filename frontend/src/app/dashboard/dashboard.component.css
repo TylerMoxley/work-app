@@ -1,0 +1,156 @@
+/* Main container for the dashboard */
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: #121212;
+  color: white;
+}
+
+/* Search bar and button container */
+.dashboard-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Global search bar styling */
+.global-search-bar {
+  width: 80%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #333;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.global-search-bar::placeholder {
+  color: #999;
+}
+
+/* Style the + button */
+.add-button {
+  background-color: #28a745;
+  color: white;
+  font-size: 24px;
+  border: none;
+  border-radius: 4px;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  /* Removed the position: fixed; */
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 250px;
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 20px;
+}
+
+.sidebar-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-list li {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;  /* To align the badge on the right */
+}
+
+.sidebar-list li.active {
+  background-color: #2a2a2a;
+  font-weight: bold;
+}
+
+.badge {
+  background-color: #303030;
+  border-radius: 12px;
+  color: white;
+  padding: 4px 8px;
+  font-size: 14px;
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.table-responsive {
+  margin-top: 20px;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  padding: 20px;
+}
+
+/* Modal styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+}
+
+.add-bill-form .form-group label {
+  color: white;
+}
+
+.add-bill-form .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #2a2a2a;
+  color: white;
+}
+
+.add-bill-button,
+.close-button,
+.delete-button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.close-button {
+  background-color: #333;
+}
+
+.delete-button {
+  background-color: #d9534f;
+}
+
+.badge {
+  background-color: #3f3f3f;
+  border-radius: 12px;
+  color: white;
+  padding: 4px 8px;
+  font-size: 14px;
+}

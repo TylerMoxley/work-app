@@ -1,0 +1,101 @@
+/* Table Responsive Wrapper */
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    background-color: #1e1e1e;
+}
+
+/* Apply table-layout fixed to prevent shifting */
+table {
+    width: 100%;
+    table-layout: fixed; /* Fixes the column layout */
+    border-collapse: collapse;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* Column widths are fixed, adjust as needed */
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #333;
+    overflow: hidden;
+    white-space: nowrap; /* Prevent wrapping */
+    text-overflow: ellipsis; /* Show ellipsis if the content overflows */
+}
+
+/* Set specific column widths */
+table th:nth-child(1), table td:nth-child(1) {
+    width: 15%; /* SO number */
+}
+
+table th:nth-child(2), table td:nth-child(2) {
+    width: 25%; /* Customer Name */
+}
+
+table th:nth-child(3), table td:nth-child(3) {
+    width: 20%; /* Model */
+}
+
+table th:nth-child(4), table td:nth-child(4) {
+    width: 20%; /* Serial */
+}
+
+table th:nth-child(5), table td:nth-child(5) {
+    width: 10%; /* RMA */
+}
+
+table th:nth-child(6), table td:nth-child(6) {
+    width: 10%; /* Actions */
+}
+
+/* Make sure header remains visually distinct */
+table th {
+    background-color: #333;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+table td {
+    color: white;
+}
+
+tbody tr:hover {
+    background-color: #444;
+}
+
+/* Edit button styles */
+.edit-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    /* position: absolute; */
+}
+
+.edit-button:hover {
+    background-color: #45a049;
+}
+  
+
+/* Styling the search bar */
+.search-bar {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #333;
+    border-radius: 4px;
+    background-color: #2a2a2a;
+    color: white;
+    font-size: 16px;
+  }
+  
+  .search-bar::placeholder {
+    color: #888;
+  }
+  

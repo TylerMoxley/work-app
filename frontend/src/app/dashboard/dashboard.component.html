@@ -1,0 +1,162 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <ul class="sidebar-list">
+      <li (click)="setActiveTab('pending')" [class.active]="activeTab === 'pending'">
+        Pending <span class="badge">{{ filteredPendingBills.length }}</span>
+      </li>
+      <li (click)="setActiveTab('failed')" [class.active]="activeTab === 'failed'">
+        Failed <span class="badge">{{ filteredFailedBills.length }}</span>
+      </li>
+      <li (click)="setActiveTab('processed')" [class.active]="activeTab === 'processed'">
+        Processed <span class="badge">{{ filteredProcessedBills.length }}</span>
+      </li>
+      <li (click)="setActiveTab('completed')" [class.active]="activeTab === 'completed'">
+        Completed <span class="badge">{{ filteredCompletedBills.length }}</span>
+      </li>
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="content">
+    <div class="dashboard-top">
+      <!-- Global Search bar -->
+      <input 
+        type="text" 
+        placeholder="Search by SO or RMA number" 
+        [(ngModel)]="searchTerm" 
+        (input)="filterBills()" 
+        class="global-search-bar"
+      />
+      <!-- Add Button -->
+      <button (click)="openModal()" class="add-button">+</button>
+    </div>
+
+    <div *ngIf="activeTab === 'pending'">
+      <app-repair-table [bills]="filteredPendingBills" (editBill)="openEditModal($event)"></app-repair-table>
+    </div>
+    
+    <div *ngIf="activeTab === 'failed'">
+      <app-repair-table [bills]="filteredFailedBills" (editBill)="openEditModal($event)"></app-repair-table>
+    </div>
+    
+    <div *ngIf="activeTab === 'processed'">
+      <app-repair-table [bills]="filteredProcessedBills" (editBill)="openEditModal($event)"></app-repair-table>
+    </div>
+    
+    <div *ngIf="activeTab === 'completed'">
+      <app-repair-table [bills]="filteredCompletedBills" (editBill)="openEditModal($event)"></app-repair-table>
+    </div>
+  </main>
+</div>
+
+
+
+
+<!-- Modal for adding new repair bill -->
+<div *ngIf="isModalOpen" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Add New Repair Bill</h3>
+    <form (ngSubmit)="addBill()" class="add-bill-form">
+      <div class="form-group">
+        <label for="so_number">SO Number</label>
+        <input type="text" [(ngModel)]="newBill.so_number" name="so_number" required>
+      </div>
+      <div class="form-group">
+        <label for="customer_name">Customer Name</label>
+        <input type="text" [(ngModel)]="newBill.customer_name" name="customer_name" required>
+      </div>
+      <div class="form-group">
+        <label for="model_number">Model Number</label>
+        <input type="text" [(ngModel)]="newBill.model_number" name="model_number" required>
+      </div>
+      <div class="form-group">
+        <label for="serial_number">Serial Number</label>
+        <input type="text" [(ngModel)]="newBill.serial_number" name="serial_number" required>
+      </div>
+      <div class="form-group">
+        <label for="rma_number">RMA Number</label>
+        <input type="text" [(ngModel)]="newBill.rma_number" name="rma_number" required>
+      </div>
+      <div class="form-group">
+        <label for="ticket_number">Ticket Number</label>
+        <input type="text" [(ngModel)]="newBill.ticket_number" name="ticket_number" required>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea
+          id="notes"
+          name="notes"
+          [(ngModel)]="newBill.notes"
+          class="form-control"
+          rows="5"
+        ></textarea>
+      </div>
+      <button type="submit" class="add-bill-button">Add Repair Bill</button>
+      <button type="button" (click)="closeModal()" class="close-button">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Modal for Repair Bill -->
+<div *ngIf="isEditModalOpen && editBill" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Edit Repair Bill</h3>
+    <form (ngSubmit)="saveEdit()" class="add-bill-form">
+      <div class="form-group">
+        <label for="so_number">SO Number</label>
+        <input type="text" [(ngModel)]="editBill!.so_number" name="so_number" required>
+      </div>
+      <div class="form-group">
+        <label for="customer_name">Customer</label>
+        <input type="text" [(ngModel)]="editBill!.customer_name" name="customer_name" required>
+      </div>
+      <div class="form-group">
+        <label for="model_number">Model</label>
+        <input type="text" [(ngModel)]="editBill!.model_number" name="model_number" required>
+      </div>
+      <div class="form-group">
+        <label for="serial_number">SN</label>
+        <input type="text" [(ngModel)]="editBill!.serial_number" name="serial_number" required>
+      </div>
+      <div class="form-group">
+        <label for="rma_number">RMA</label>
+        <input type="text" [(ngModel)]="editBill!.rma_number" name="rma_number" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select [(ngModel)]="editBill!.status" name="status">
+          <option value="pending">Pending</option>
+          <option value="processed">Processed</option>
+          <option value="failed">Failed</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
+      <div *ngIf="editBill!.status === 'failed'" class="form-group">
+        <label for="failure_reason">Failure Reason</label>
+        <select [(ngModel)]="editBill!.failure_reason" name="failure_reason">
+          <option value="Invalid Credit Card Number">Invalid Credit Card Number</option>
+          <option value="An error occurred while processing your credit card">An error occurred while processing your credit card</option>
+        </select>
+      </div>
+
+      <!-- Add the Notes Field -->
+      <div class="form-group">
+        <label for="notes">Notes</label>
+        <textarea
+          id="notes"
+          name="notes"
+          [(ngModel)]="newBill.notes"
+          class="form-control"
+          rows="5"
+        ></textarea>
+
+      </div>
+
+      <button type="submit" class="add-bill-button">Save</button>
+      <button type="button" (click)="closeEditModal()" class="close-button">Cancel</button>
+      <button type="button" (click)="deleteBill()" class="delete-button">Delete</button>
+    </form>
+  </div>
+</div>
