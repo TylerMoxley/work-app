@@ -10,3 +10,5 @@ db.sqlite3
 frontend_backup/
 work-app/
 
+frontend/.angular/
+
