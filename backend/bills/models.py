@@ -14,6 +14,9 @@ class RepairBill(models.Model):
     serial_number = models.CharField(max_length=255)
     rma_number = models.CharField(max_length=255)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    failure_reason = models.CharField(max_length=255, blank=True, null=True)  # Optional failure reason
+    notes = models.TextField(blank=True, null=True)
+    ticket_number = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return f"{self.customer_name} - {self.so_number}"
