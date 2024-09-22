@@ -1,5 +1,5 @@
 venv/
-# Python bytecode files
+.DS_Store
 *.pyc
 __pycache__/
 
@@ -11,4 +11,3 @@ frontend_backup/
 work-app/
 
 frontend/.angular/
-

@@ -50,8 +50,7 @@ export class DashboardComponent implements OnInit {
   loadPendingBills(): void {
     this.repairBillService.getBillsByStatus('pending').subscribe((data: RepairBill[]) => {
       this.pendingBills = data;
-      console.log('Pending Bills:', this.pendingBills);
-      this.filterBills();  // Call filter after loading
+      this.filterBills();  // Apply filters after loading
     });
   }
 
@@ -59,7 +58,7 @@ export class DashboardComponent implements OnInit {
   loadCompletedBills(): void {
     this.repairBillService.getBillsByStatus('completed').subscribe((data: RepairBill[]) => {
       this.completedBills = data;
-      this.filterBills();  // Call filter after loading
+      this.filterBills();  // Apply filters after loading
     });
   }
 
@@ -67,7 +66,7 @@ export class DashboardComponent implements OnInit {
   loadProcessedBills(): void {
     this.repairBillService.getBillsByStatus('processed').subscribe((data: RepairBill[]) => {
       this.processedBills = data;
-      this.filterBills();  // Call filter after loading
+      this.filterBills();  // Apply filters after loading
     });
   }
 
@@ -75,7 +74,7 @@ export class DashboardComponent implements OnInit {
   loadFailedBills(): void {
     this.repairBillService.getBillsByStatus('failed').subscribe((data: RepairBill[]) => {
       this.failedBills = data;
-      this.filterBills();  // Call filter after loading
+      this.filterBills();  // Apply filters after loading
     });
   }
 
@@ -132,34 +131,35 @@ export class DashboardComponent implements OnInit {
   // Set the active tab and reset filtered bills if needed
   setActiveTab(tab: string): void {
     this.activeTab = tab;
-
+  
     // If there's no search term, reset the filtered lists to show all bills for the new tab
     if (this.searchTerm.length === 0) {
       this.resetFilteredBills();
     }
+    
+    // Fetch bills only if the list is empty (optional, for optimization)
+    if (tab === 'pending' && this.pendingBills.length === 0) {
+      this.loadPendingBills();
+    } else if (tab === 'completed' && this.completedBills.length === 0) {
+      this.loadCompletedBills();
+    } else if (tab === 'processed' && this.processedBills.length === 0) {
+      this.loadProcessedBills();
+    } else if (tab === 'failed' && this.failedBills.length === 0) {
+      this.loadFailedBills();
+    }
   }
+  
 
   // Add a new repair bill
-  // Add a new repair bill
-addBill(): void {
-  this.repairBillService.createRepairBill(this.newBill).subscribe((bill: RepairBill) => {
-    this.pendingBills.push(bill);
-    this.filterBills();  // Ensure filtered lists are updated after adding a new bill
-    this.newBill = {
-      id: 0,
-      so_number: '',
-      customer_name: '',
-      model_number: '',
-      serial_number: '',
-      rma_number: '',
-      status: 'pending',
-      failure_reason: '',
-      ticket_number: '',
-      notes: ''
-    };
-    this.closeModal();
-  });
-}
+  addBill(): void {
+    this.repairBillService.createRepairBill(this.newBill).subscribe((bill: RepairBill) => {
+      this.loadPendingBills();  // Only reload pending bills
+      this.filterBills();  // Update filtered lists
+      this.closeModal();
+    });
+  }
+  
+  
 
 
   // Open the modal to edit a bill
@@ -169,19 +169,19 @@ addBill(): void {
   }
 
   // Save changes to the edited bill
-  saveEdit(): void {
-    if (this.editBill) {
-      this.repairBillService.updateBillStatus(this.editBill).subscribe(() => {
-        // Remove the bill from its original list based on its id
-        this.removeFromAllLists(this.editBill!.id);
-
-        // Move the bill to the correct list based on the new status
-        this.moveBillToCorrectList(this.editBill!);
-
-        this.closeEditModal();
-      });
-    }
+// Save changes to the edited bill
+saveEdit(): void {
+  if (this.editBill) {
+    this.repairBillService.updateBillStatus(this.editBill).subscribe(() => {
+      this.removeFromAllLists(this.editBill!.id); // Remove the bill from its original list
+      this.moveBillToCorrectList(this.editBill!); // Move the bill to the correct list based on its new status
+      this.filterBills();  // Update filtered lists
+      this.closeEditModal();
+    });
   }
+}
+
+  
 
   // Helper method to remove a bill from all lists based on id
   removeFromAllLists(id: number): void {
@@ -205,22 +205,19 @@ addBill(): void {
   }
 
   // Delete the selected repair bill
-  // Delete the selected repair bill
   deleteBill(): void {
     if (this.editBill) {
       const id = this.editBill.id;
-      this.repairBillService.deleteRepairBill(id).subscribe({
-        next: () => {
-          this.removeFromAllLists(id);
-          this.filterBills();  // Ensure filtered lists are updated after deleting a bill
-          this.closeEditModal();
-        },
-        error: (err) => {
-          console.error('Error deleting bill:', err);
-        }
+      this.repairBillService.deleteRepairBill(id).subscribe(() => {
+        this.removeFromAllLists(id);  // Remove from all lists
+        this.filterBills();  // Update filtered lists
+        this.reloadActiveTab();  // Reload the active tab to reflect changes
+        this.closeEditModal();
       });
     }
   }
+  
+  
 
 
   // Modal-related methods:
@@ -239,6 +236,19 @@ addBill(): void {
   closeEditModal(): void {
     this.editBill = null;  // Reset editBill to null when closing the modal
     this.isEditModalOpen = false;
+  }
+
+  // Helper method to reload the active tab
+  reloadActiveTab(): void {
+    if (this.activeTab === 'pending') {
+      this.loadPendingBills();
+    } else if (this.activeTab === 'completed') {
+      this.loadCompletedBills();
+    } else if (this.activeTab === 'processed') {
+      this.loadProcessedBills();
+    } else if (this.activeTab === 'failed') {
+      this.loadFailedBills();
+    }
   }
 }
 
