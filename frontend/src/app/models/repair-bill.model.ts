@@ -1,5 +1,4 @@
 // src/app/models/repair-bill.model.ts
-
 export interface RepairBill {
     id: number;
     so_number: string;
@@ -8,8 +7,8 @@ export interface RepairBill {
     serial_number: string;
     rma_number: string;
     status: 'pending' | 'processed' | 'failed' | 'completed';
-    failure_reason?: string; // Optional
+    failure_reason?: string;  // Optional field for failure reason
     ticket_number: string;
-    notes: string;
+    notes: string;  // Notes field
   }
   

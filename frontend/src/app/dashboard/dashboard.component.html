@@ -50,40 +50,56 @@
   </main>
 </div>
 
-
-
-
 <!-- Modal for adding new repair bill -->
 <div *ngIf="isModalOpen" class="modal-overlay">
   <div class="modal-content">
     <h3>Add New Repair Bill</h3>
     <form (ngSubmit)="addBill()" class="add-bill-form">
+      <!-- SO Number -->
       <div class="form-group">
         <label for="so_number">SO Number</label>
         <input type="text" [(ngModel)]="newBill.so_number" name="so_number" required />
       </div>
+
+      <!-- Customer Name -->
       <div class="form-group">
         <label for="customer_name">Customer Name</label>
         <input type="text" [(ngModel)]="newBill.customer_name" name="customer_name" required />
       </div>
+
+      <!-- Model Number -->
       <div class="form-group">
         <label for="model_number">Model Number</label>
-        <input type="text" [(ngModel)]="newBill.model_number" name="model_number" required />
+        <select [(ngModel)]="newBill.model_number" name="model_number" required class="form-control">
+          <option value="GCQ">GCQ</option>
+          <option value="GC3">GC3</option>
+          <option value="LP">LP</option>
+          <option value="GCH">GCH</option>
+          <option value="Quadmax">Quadmax</option>
+          <option value="Falcon">Falcon</option>
+          <option value="FC">FC</option>
+        </select>
       </div>
+
+      <!-- Serial Number -->
       <div class="form-group">
         <label for="serial_number">Serial Number</label>
         <input type="text" [(ngModel)]="newBill.serial_number" name="serial_number" required />
       </div>
+
+      <!-- RMA Number -->
       <div class="form-group">
         <label for="rma_number">RMA Number</label>
         <input type="text" [(ngModel)]="newBill.rma_number" name="rma_number" required />
       </div>
+
+      <!-- Ticket Number -->
       <div class="form-group">
         <label for="ticket_number">Ticket Number</label>
         <input type="text" [(ngModel)]="newBill.ticket_number" name="ticket_number" required />
       </div>
 
-      <!-- Status Field (Same as Edit Modal) -->
+      <!-- Status -->
       <div class="form-group">
         <label for="status">Status</label>
         <select [(ngModel)]="newBill.status" name="status" class="form-control">
@@ -94,16 +110,23 @@
         </select>
       </div>
 
-      <div class="form-group">
-        <label for="notes">Notes</label>
-        <textarea
-          id="notes"
-          name="notes"
-          [(ngModel)]="newBill.notes"
-          class="form-control"
-          rows="5"
-        ></textarea>
-      </div>
+  <!-- Failure Reason dropdown, only show when status is "Failed" -->
+  <div *ngIf="newBill.status === 'failed'" class="form-group">
+    <label for="failure_reason">Failure Reason</label>
+    <select [(ngModel)]="newBill.failure_reason" name="failure_reason" class="form-control">
+      <option value="Invalid Credit Card Number">Invalid Credit Card Number</option>
+      <option value="An error occurred while processing your credit card">Error processing credit card</option>
+      <option value="Device not repairable">Device not repairable</option>
+      <option value="RMA expired">RMA expired</option>
+    </select>
+  </div>
+
+
+  <!-- Notes Field -->
+  <div class="form-group">
+    <label for="notes">Notes</label>
+    <textarea [(ngModel)]="newBill.notes" name="notes" class="form-control" rows="5"></textarea>
+  </div>
 
       <button type="submit" class="add-bill-button">Add Repair Bill</button>
       <button type="button" (click)="closeModal()" class="close-button">Cancel</button>
@@ -124,10 +147,21 @@
         <label for="customer_name">Customer</label>
         <input type="text" [(ngModel)]="editBill!.customer_name" name="customer_name" required />
       </div>
+      
+      <!-- Model Number Dropdown for Edit Modal -->
       <div class="form-group">
-        <label for="model_number">Model</label>
-        <input type="text" [(ngModel)]="editBill!.model_number" name="model_number" required />
+        <label for="model_number">Model Number</label>
+        <select [(ngModel)]="editBill!.model_number" name="model_number" required class="form-control">
+          <option value="GCQ">GCQ</option>
+          <option value="GC3">GC3</option>
+          <option value="LP">LP</option>
+          <option value="GCH">GCH</option>
+          <option value="Quadmax">Quadmax</option>
+          <option value="Falcon">Falcon</option>
+          <option value="FC">FC</option>
+        </select>
       </div>
+
       <div class="form-group">
         <label for="serial_number">Serial Number</label>
         <input type="text" [(ngModel)]="editBill!.serial_number" name="serial_number" required />
@@ -146,6 +180,7 @@
         </select>
       </div>
 
+      <!-- Show Failure Reason only when status is "Failed" -->
       <div *ngIf="editBill!.status === 'failed'" class="form-group">
         <label for="failure_reason">Failure Reason</label>
         <select [(ngModel)]="editBill!.failure_reason" name="failure_reason" class="form-control">
@@ -153,10 +188,11 @@
           <option value="An error occurred while processing your credit card">
             Error processing credit card
           </option>
+          <!-- <option value="Device not repairable">Device not repairable</option>
+          <option value="RMA expired">RMA expired</option> -->
         </select>
       </div>
 
-      <!-- Add the Notes Field -->
       <div class="form-group">
         <label for="notes">Notes</label>
         <textarea

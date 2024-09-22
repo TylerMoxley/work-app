@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
     id: 0,
     so_number: '',
     customer_name: '',
-    model_number: '',
+    model_number: 'GCQ',  // Default model number
     serial_number: '',
     rma_number: '',
     status: 'pending',
@@ -152,12 +152,50 @@ export class DashboardComponent implements OnInit {
 
   // Add a new repair bill
   addBill(): void {
+    // Ensure failure_reason is cleared if status is not 'failed'
+    if (this.newBill.status !== 'failed') {
+      this.newBill.failure_reason = ''; // Clear failure reason if status is not failed
+    }
+  
+    // Log the newBill object to ensure it's correctly populated
+    console.log("New Bill Data:", this.newBill);
+  
+    // Send the bill data to the server
     this.repairBillService.createRepairBill(this.newBill).subscribe((bill: RepairBill) => {
-      this.loadPendingBills();  // Only reload pending bills
-      this.filterBills();  // Update filtered lists
+      if (bill.status === 'pending') {
+        this.pendingBills.push(bill);
+        this.filteredPendingBills = [...this.pendingBills];
+      } else if (bill.status === 'failed') {
+        this.failedBills.push(bill);
+        this.filteredFailedBills = [...this.failedBills];
+      } else if (bill.status === 'processed') {
+        this.processedBills.push(bill);
+        this.filteredProcessedBills = [...this.processedBills];
+      } else if (bill.status === 'completed') {
+        this.completedBills.push(bill);
+        this.filteredCompletedBills = [...this.completedBills];
+      }
+  
+      // Reset the form after adding the bill
+      this.newBill = {
+        id: 0,
+        so_number: '',
+        customer_name: '',
+        model_number: 'GCQ',  // Default model number
+        serial_number: '',
+        rma_number: '',
+        status: 'pending',
+        failure_reason: '', // Clear failure reason
+        ticket_number: '',
+        notes: ''
+      };
+  
       this.closeModal();
     });
   }
+  
+    
+  
   
   
 

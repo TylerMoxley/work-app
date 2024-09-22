@@ -1,5 +1,4 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { RepairBill } from '../repair-bill.service';
 
 @Component({
   selector: 'app-repair-table',
@@ -7,11 +6,17 @@ import { RepairBill } from '../repair-bill.service';
   styleUrls: ['./repair-table.component.css']
 })
 export class RepairTableComponent {
-  @Input() bills: RepairBill[] = [];
-  @Output() editBill = new EventEmitter<RepairBill>();
+  @Input() bills: any[] = []; // Revert to simpler array of any
+  @Output() editBill = new EventEmitter<any>();
+  @Output() showDetails = new EventEmitter<any>();
 
-  // Add the onEdit method
-  onEdit(bill: RepairBill): void {
+  // Edit event handler
+  onEdit(bill: any): void {
     this.editBill.emit(bill);
+  }
+
+  // Row click handler
+  onRowClick(bill: any): void {
+    this.showDetails.emit(bill);
   }
 }
