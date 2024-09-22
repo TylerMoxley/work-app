@@ -1,0 +1,15 @@
+Things I need to do:
+- Add a field for the failure reason to the RepairBill model
+- Add a field for the notes to the RepairBill model
+- Add a field for the date to the RepairBill model
+- Add a field for the time to the RepairBill model
+- Add a field for the model to the RepairBill model
+- Add a field for the serial number to the RepairBill model
+- Add a field for the RMA number to the RepairBill model
+- Add a field for the status to the RepairBill model
+- Add a field for the failure reason to the RepairBill model
+- Add a field for the notes to the RepairBill model
+
+
+Features I want to add:
+ - Make the list items clickable to show more information and open the edit modal

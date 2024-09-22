@@ -60,28 +60,40 @@
     <form (ngSubmit)="addBill()" class="add-bill-form">
       <div class="form-group">
         <label for="so_number">SO Number</label>
-        <input type="text" [(ngModel)]="newBill.so_number" name="so_number" required>
+        <input type="text" [(ngModel)]="newBill.so_number" name="so_number" required />
       </div>
       <div class="form-group">
         <label for="customer_name">Customer Name</label>
-        <input type="text" [(ngModel)]="newBill.customer_name" name="customer_name" required>
+        <input type="text" [(ngModel)]="newBill.customer_name" name="customer_name" required />
       </div>
       <div class="form-group">
         <label for="model_number">Model Number</label>
-        <input type="text" [(ngModel)]="newBill.model_number" name="model_number" required>
+        <input type="text" [(ngModel)]="newBill.model_number" name="model_number" required />
       </div>
       <div class="form-group">
         <label for="serial_number">Serial Number</label>
-        <input type="text" [(ngModel)]="newBill.serial_number" name="serial_number" required>
+        <input type="text" [(ngModel)]="newBill.serial_number" name="serial_number" required />
       </div>
       <div class="form-group">
         <label for="rma_number">RMA Number</label>
-        <input type="text" [(ngModel)]="newBill.rma_number" name="rma_number" required>
+        <input type="text" [(ngModel)]="newBill.rma_number" name="rma_number" required />
       </div>
       <div class="form-group">
         <label for="ticket_number">Ticket Number</label>
-        <input type="text" [(ngModel)]="newBill.ticket_number" name="ticket_number" required>
+        <input type="text" [(ngModel)]="newBill.ticket_number" name="ticket_number" required />
       </div>
+
+      <!-- Status Field (Same as Edit Modal) -->
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select [(ngModel)]="newBill.status" name="status" class="form-control">
+          <option value="pending">Pending</option>
+          <option value="processed">Processed</option>
+          <option value="failed">Failed</option>
+          <option value="completed">Completed</option>
+        </select>
+      </div>
+
       <div class="form-group">
         <label for="notes">Notes</label>
         <textarea
@@ -92,6 +104,7 @@
           rows="5"
         ></textarea>
       </div>
+
       <button type="submit" class="add-bill-button">Add Repair Bill</button>
       <button type="button" (click)="closeModal()" class="close-button">Cancel</button>
     </form>
@@ -102,30 +115,30 @@
 <div *ngIf="isEditModalOpen && editBill" class="modal-overlay">
   <div class="modal-content">
     <h3>Edit Repair Bill</h3>
-    <form (ngSubmit)="saveEdit()" class="add-bill-form">
+    <form (ngSubmit)="saveEdit()" class="edit-bill-form">
       <div class="form-group">
         <label for="so_number">SO Number</label>
-        <input type="text" [(ngModel)]="editBill!.so_number" name="so_number" required>
+        <input type="text" [(ngModel)]="editBill!.so_number" name="so_number" required />
       </div>
       <div class="form-group">
         <label for="customer_name">Customer</label>
-        <input type="text" [(ngModel)]="editBill!.customer_name" name="customer_name" required>
+        <input type="text" [(ngModel)]="editBill!.customer_name" name="customer_name" required />
       </div>
       <div class="form-group">
         <label for="model_number">Model</label>
-        <input type="text" [(ngModel)]="editBill!.model_number" name="model_number" required>
+        <input type="text" [(ngModel)]="editBill!.model_number" name="model_number" required />
       </div>
       <div class="form-group">
-        <label for="serial_number">SN</label>
-        <input type="text" [(ngModel)]="editBill!.serial_number" name="serial_number" required>
+        <label for="serial_number">Serial Number</label>
+        <input type="text" [(ngModel)]="editBill!.serial_number" name="serial_number" required />
       </div>
       <div class="form-group">
-        <label for="rma_number">RMA</label>
-        <input type="text" [(ngModel)]="editBill!.rma_number" name="rma_number" required>
+        <label for="rma_number">RMA Number</label>
+        <input type="text" [(ngModel)]="editBill!.rma_number" name="rma_number" required />
       </div>
       <div class="form-group">
         <label for="status">Status</label>
-        <select [(ngModel)]="editBill!.status" name="status">
+        <select [(ngModel)]="editBill!.status" name="status" class="form-control">
           <option value="pending">Pending</option>
           <option value="processed">Processed</option>
           <option value="failed">Failed</option>
@@ -135,9 +148,11 @@
 
       <div *ngIf="editBill!.status === 'failed'" class="form-group">
         <label for="failure_reason">Failure Reason</label>
-        <select [(ngModel)]="editBill!.failure_reason" name="failure_reason">
+        <select [(ngModel)]="editBill!.failure_reason" name="failure_reason" class="form-control">
           <option value="Invalid Credit Card Number">Invalid Credit Card Number</option>
-          <option value="An error occurred while processing your credit card">An error occurred while processing your credit card</option>
+          <option value="An error occurred while processing your credit card">
+            Error processing credit card
+          </option>
         </select>
       </div>
 
@@ -147,11 +162,10 @@
         <textarea
           id="notes"
           name="notes"
-          [(ngModel)]="newBill.notes"
+          [(ngModel)]="editBill!.notes"
           class="form-control"
           rows="5"
         ></textarea>
-
       </div>
 
       <button type="submit" class="add-bill-button">Save</button>
