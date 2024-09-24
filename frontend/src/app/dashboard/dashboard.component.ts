@@ -162,6 +162,7 @@ export class DashboardComponent implements OnInit {
   
     // Send the bill data to the server
     this.repairBillService.createRepairBill(this.newBill).subscribe((bill: RepairBill) => {
+      console.log("Bill returned from backend:", bill);  // Check if bill.notes has the correct value
       if (bill.status === 'pending') {
         this.pendingBills.push(bill);
         this.filteredPendingBills = [...this.pendingBills];
