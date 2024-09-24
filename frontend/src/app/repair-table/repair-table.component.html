@@ -8,26 +8,27 @@
         <th>Serial</th>
         <th>RMA</th>
         <th>Ticket</th>
+        <th>Updated</th>  <!-- New Last Updated column -->
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <!-- Show this row if there are no bills -->
       <tr *ngIf="bills.length === 0">
-        <td colspan="7" class="no-data">No bills available</td>
+        <td colspan="8" class="no-data">No bills available</td>  <!-- Updated colspan -->
       </tr>
       <!-- Iterate over the bills passed from the parent -->
       <tr *ngFor="let bill of bills">
-        
         <td>{{ bill.so_number }}</td>
         <td>{{ bill.customer_name }}</td>
         <td>{{ bill.model_number }}</td>
         <td>{{ bill.serial_number }}</td>
         <td>{{ bill.rma_number }}</td>
+        <td>{{ bill.ticket_number }}</td>
+        <td>{{ bill.updated_at | timeAgo }}</td>  <!-- Display "time since last update" using the custom timeAgo pipe -->
         <td>
           <button (click)="onEdit(bill)" class="edit-button">Edit</button>
         </td>
-        <td>{{ bill.ticket_number }}</td>
         
       </tr>
     </tbody>

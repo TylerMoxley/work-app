@@ -10,5 +10,6 @@ export interface RepairBill {
     failure_reason?: string;  // Optional field for failure reason
     ticket_number: string;
     notes: string;  // Notes field
+    dateCreated?: string;
+    updated_at?: string;  // Add this field
   }
-  
