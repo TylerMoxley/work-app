@@ -16,11 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.http import HttpResponse
 from users.views import LoginView
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+
+def home_view(request):
+    return HttpResponse("<h1>Welcome to the Home Page</h1>")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +33,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('api/', include('bills.urls')),
     path('zendesk/', include('zendesk.urls')),
+    path('', home_view),
 ]

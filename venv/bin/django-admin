@@ -1,4 +1,4 @@
-#!/Users/moxley/Documents/Work_Files/VSCode/WorkApp/venv/bin/python3
+#!/opt/work-app/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys

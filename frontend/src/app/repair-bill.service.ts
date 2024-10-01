@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 export interface RepairBill {
   id: number;  // Ensure the id is mandatory
@@ -20,8 +21,8 @@ export interface RepairBill {
   providedIn: 'root'
 })
 export class RepairBillService {
-  private apiUrl = 'http://127.0.0.1:8000/api/repair-bills/';
-
+  private apiUrl = `${environment.apiUrl}repair-bills/`;
+  
   constructor(private http: HttpClient) {}
 
   // Method to delete a bill by ID
