@@ -5,8 +5,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:4200",  # Assuming Angular runs on port 4200 locally
+    "http://localhost:4200",  # Allow the local Angular frontend to access the API
 ]
+
+CORS_ALLOW_CREDENTIALS = True  # If you are using cookies or session-based authentication
 
 # Local SQLite Database Example
 DATABASES = {
