@@ -1,5 +1,5 @@
-from .base import *
 import os
+from .base import *
 
 DEBUG = False
 
@@ -9,6 +9,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.moxxai.com",
     "https://moxxai.com",
 ]
+
+CORS_ALLOW_CREDENTIALS = True
 
 # PostgreSQL Database Example
 DATABASES = {
@@ -29,7 +31,7 @@ LOGGING = {
         'file': {
             'level': 'ERROR',
             'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'django_errors.log'),
+            'filename': '/opt/work-app/backend/django_errors.log',  # Absolute path
         },
     },
     'loggers': {
@@ -40,3 +42,5 @@ LOGGING = {
         },
     },
 }
+
+# ... rest of your settings ...
