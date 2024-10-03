@@ -1,13 +1,20 @@
+# Virtual environments
 venv/
+.venv/
+
+# macOS system files
 .DS_Store
+
+# Python compiled files and cache
 *.pyc
 __pycache__/
 
 # Local SQLite database
 db.sqlite3
 
-# Backup folder and workspace folder (if you don’t want them tracked)
+# Backup and workspace folders
 frontend_backup/
 work-app/
 
+# Angular cache
 frontend/.angular/
