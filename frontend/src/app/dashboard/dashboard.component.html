@@ -1,15 +1,16 @@
 <div class="dashboard-wrapper">
   <!-- Sidebar -->
   <aside class="sidebar">
+    <button (click)="openModal()" class="add-button-sidebar">Create</button>
     <ul class="sidebar-list">
       <li (click)="setActiveTab('pending')" [class.active]="activeTab === 'pending'">
         Pending <span class="badge">{{ filteredPendingBills.length }}</span>
       </li>
-      <li (click)="setActiveTab('failed')" [class.active]="activeTab === 'failed'">
-        Failed <span class="badge">{{ filteredFailedBills.length }}</span>
-      </li>
       <li (click)="setActiveTab('processed')" [class.active]="activeTab === 'processed'">
         Processed <span class="badge">{{ filteredProcessedBills.length }}</span>
+      </li>
+      <li (click)="setActiveTab('failed')" [class.active]="activeTab === 'failed'">
+        Failed <span class="badge">{{ filteredFailedBills.length }}</span>
       </li>
       <li (click)="setActiveTab('completed')" [class.active]="activeTab === 'completed'">
         Completed <span class="badge">{{ filteredCompletedBills.length }}</span>
@@ -20,16 +21,16 @@
   <!-- Main Content -->
   <main class="content">
     <div class="dashboard-top">
+      <!-- Add Button -->
+      <!-- <button (click)="openModal()" class="add-button">+</button> -->
       <!-- Global Search bar -->
       <input 
         type="text" 
-        placeholder="Search by SO or RMA number" 
+        placeholder="Search by SO or RMA" 
         [(ngModel)]="searchTerm" 
         (input)="filterBills()" 
         class="global-search-bar"
       />
-      <!-- Add Button -->
-      <button (click)="openModal()" class="add-button">+</button>
     </div>
 
     <div *ngIf="activeTab === 'pending'">
@@ -53,7 +54,7 @@
 <!-- Modal for adding new repair bill -->
 <div *ngIf="isModalOpen" class="modal-overlay">
   <div class="modal-content">
-    <h3>Add New Repair Bill</h3>
+    <!-- <h3>Add New Repair Bill</h3> -->
     <form (ngSubmit)="addBill()" class="add-bill-form">
       <!-- SO Number -->
       <div class="form-group">
@@ -63,13 +64,13 @@
 
       <!-- Customer Name -->
       <div class="form-group">
-        <label for="customer_name">Customer Name</label>
+        <label for="customer_name">Customer</label>
         <input type="text" [(ngModel)]="newBill.customer_name" name="customer_name" required />
       </div>
 
       <!-- Model Number -->
       <div class="form-group">
-        <label for="model_number">Model Number</label>
+        <label for="model_number">Model</label>
         <select [(ngModel)]="newBill.model_number" name="model_number" required class="form-control">
           <option value="GCQ">GCQ</option>
           <option value="GC3">GC3</option>
@@ -116,8 +117,6 @@
     <select [(ngModel)]="newBill.failure_reason" name="failure_reason" class="form-control">
       <option value="Invalid Credit Card Number">Invalid Credit Card Number</option>
       <option value="An error occurred while processing your credit card">Error processing credit card</option>
-      <option value="Device not repairable">Device not repairable</option>
-      <option value="RMA expired">RMA expired</option>
     </select>
   </div>
 
@@ -137,7 +136,7 @@
 <!-- Edit Modal for Repair Bill -->
 <div *ngIf="isEditModalOpen && editBill" class="modal-overlay">
   <div class="modal-content">
-    <h3>Edit Repair Bill</h3>
+    <!-- <h3>Edit Repair Bill</h3> -->
     <form (ngSubmit)="saveEdit()" class="edit-bill-form">
       <div class="form-group">
         <label for="so_number">SO Number</label>

@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RepairTableComponent } from './repair-table/repair-table.component';  // Import the table component
+import { TimeAgoPipe } from './time-ago.pipe';  // Correct import for the pipe
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { RepairTableComponent } from './repair-table/repair-table.component';  /
     AppComponent,  // Now it's a regular declared component
     LoginComponent,
     DashboardComponent,
-    RepairTableComponent  // Add the table component here
+    RepairTableComponent,  // <-- Add a comma here
+    TimeAgoPipe  // Declare the TimeAgoPipe
   ],
   imports: [
     BrowserModule,

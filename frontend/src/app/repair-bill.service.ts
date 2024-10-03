@@ -14,6 +14,7 @@ export interface RepairBill {
   failure_reason?: string;
   notes?: string;
   dateCreated?: string;
+  updated_at?: string;
   ticket_number?: string;
 }
 

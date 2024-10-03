@@ -46,10 +46,22 @@ export class DashboardComponent implements OnInit {
     this.loadFailedBills();
   }
 
+  // Helper method to sort bills by updated_at
+  sortByUpdatedAt(bills: RepairBill[]): RepairBill[] {
+    return bills.sort((a, b) => {
+      // Use new Date(0) if updated_at is undefined (defaults to epoch time)
+      const dateA = a.updated_at ? new Date(a.updated_at).getTime() : new Date(0).getTime();
+      const dateB = b.updated_at ? new Date(b.updated_at).getTime() : new Date(0).getTime();
+      
+      return dateB - dateA;  // Sort in descending order
+    });
+  }
+  
+
   // Load pending bills
   loadPendingBills(): void {
     this.repairBillService.getBillsByStatus('pending').subscribe((data: RepairBill[]) => {
-      this.pendingBills = data;
+      this.pendingBills = this.sortByUpdatedAt(data);  // Sort by updated_at
       this.filterBills();  // Apply filters after loading
     });
   }
@@ -57,7 +69,7 @@ export class DashboardComponent implements OnInit {
   // Load completed bills
   loadCompletedBills(): void {
     this.repairBillService.getBillsByStatus('completed').subscribe((data: RepairBill[]) => {
-      this.completedBills = data;
+      this.completedBills = this.sortByUpdatedAt(data);  // Sort by updated_at
       this.filterBills();  // Apply filters after loading
     });
   }
@@ -65,7 +77,7 @@ export class DashboardComponent implements OnInit {
   // Load processed bills
   loadProcessedBills(): void {
     this.repairBillService.getBillsByStatus('processed').subscribe((data: RepairBill[]) => {
-      this.processedBills = data;
+      this.processedBills = this.sortByUpdatedAt(data);  // Sort by updated_at
       this.filterBills();  // Apply filters after loading
     });
   }
@@ -73,7 +85,7 @@ export class DashboardComponent implements OnInit {
   // Load failed bills
   loadFailedBills(): void {
     this.repairBillService.getBillsByStatus('failed').subscribe((data: RepairBill[]) => {
-      this.failedBills = data;
+      this.failedBills = this.sortByUpdatedAt(data);  // Sort by updated_at
       this.filterBills();  // Apply filters after loading
     });
   }
@@ -99,7 +111,6 @@ export class DashboardComponent implements OnInit {
       this.filteredCompletedBills = this.completedBills.filter(bill =>
         bill.so_number.toLowerCase().includes(search) || bill.rma_number.toLowerCase().includes(search)
       );
-      console.log('Filtered Pending Bills:', this.filteredPendingBills);
     } else {
       // If search term is cleared, reset filtered lists
       this.resetFilteredBills();
@@ -148,7 +159,6 @@ export class DashboardComponent implements OnInit {
       this.loadFailedBills();
     }
   }
-  
 
   // Add a new repair bill
   addBill(): void {
@@ -162,17 +172,22 @@ export class DashboardComponent implements OnInit {
   
     // Send the bill data to the server
     this.repairBillService.createRepairBill(this.newBill).subscribe((bill: RepairBill) => {
+      console.log("Bill returned from backend:", bill);  // Check if bill.notes has the correct value
       if (bill.status === 'pending') {
         this.pendingBills.push(bill);
+        this.pendingBills = this.sortByUpdatedAt(this.pendingBills);  // Sort after adding
         this.filteredPendingBills = [...this.pendingBills];
       } else if (bill.status === 'failed') {
         this.failedBills.push(bill);
+        this.failedBills = this.sortByUpdatedAt(this.failedBills);  // Sort after adding
         this.filteredFailedBills = [...this.failedBills];
       } else if (bill.status === 'processed') {
         this.processedBills.push(bill);
+        this.processedBills = this.sortByUpdatedAt(this.processedBills);  // Sort after adding
         this.filteredProcessedBills = [...this.processedBills];
       } else if (bill.status === 'completed') {
         this.completedBills.push(bill);
+        this.completedBills = this.sortByUpdatedAt(this.completedBills);  // Sort after adding
         this.filteredCompletedBills = [...this.completedBills];
       }
   
@@ -194,11 +209,6 @@ export class DashboardComponent implements OnInit {
     });
   }
   
-    
-  
-  
-  
-
 
   // Open the modal to edit a bill
   openEditModal(bill: RepairBill): void {
@@ -207,19 +217,19 @@ export class DashboardComponent implements OnInit {
   }
 
   // Save changes to the edited bill
-// Save changes to the edited bill
-saveEdit(): void {
-  if (this.editBill) {
-    this.repairBillService.updateBillStatus(this.editBill).subscribe(() => {
-      this.removeFromAllLists(this.editBill!.id); // Remove the bill from its original list
-      this.moveBillToCorrectList(this.editBill!); // Move the bill to the correct list based on its new status
-      this.filterBills();  // Update filtered lists
-      this.closeEditModal();
-    });
-  }
-}
-
+  saveEdit(): void {
+    if (this.editBill) {
+      // Update the updated_at field to the current time
+      this.editBill.updated_at = new Date().toISOString();  // Set the updated time to now
   
+      this.repairBillService.updateBillStatus(this.editBill).subscribe(() => {
+        this.removeFromAllLists(this.editBill!.id);  // Remove the bill from its original list
+        this.moveBillToCorrectList(this.editBill!);  // Move the bill to the correct list based on its new status
+        this.filterBills();  // Update filtered lists
+        this.closeEditModal();
+      });
+    }
+  }
 
   // Helper method to remove a bill from all lists based on id
   removeFromAllLists(id: number): void {
@@ -233,14 +243,19 @@ saveEdit(): void {
   moveBillToCorrectList(bill: RepairBill): void {
     if (bill.status === 'completed') {
       this.completedBills.push(bill);
+      this.completedBills = this.sortByUpdatedAt(this.completedBills);  // Sort after pushing the bill
     } else if (bill.status === 'processed') {
       this.processedBills.push(bill);
+      this.processedBills = this.sortByUpdatedAt(this.processedBills);  // Sort after pushing the bill
     } else if (bill.status === 'failed') {
       this.failedBills.push(bill);
+      this.failedBills = this.sortByUpdatedAt(this.failedBills);  // Sort after pushing the bill
     } else {
       this.pendingBills.push(bill);
+      this.pendingBills = this.sortByUpdatedAt(this.pendingBills);  // Sort after pushing the bill
     }
   }
+  
 
   // Delete the selected repair bill
   deleteBill(): void {
@@ -249,14 +264,13 @@ saveEdit(): void {
       this.repairBillService.deleteRepairBill(id).subscribe(() => {
         this.removeFromAllLists(id);  // Remove from all lists
         this.filterBills();  // Update filtered lists
-        this.reloadActiveTab();  // Reload the active tab to reflect changes
+        this.reloadActiveTab();  // Reload the active tab to reflect changes and re-sort
+        
         this.closeEditModal();
       });
     }
   }
   
-  
-
 
   // Modal-related methods:
   
@@ -289,11 +303,3 @@ saveEdit(): void {
     }
   }
 }
-
-
-
-
-
-
-
-
