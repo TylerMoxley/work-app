@@ -10,13 +10,14 @@ export class DashboardComponent implements OnInit {
   pendingBills: RepairBill[] = [];
   completedBills: RepairBill[] = [];
   processedBills: RepairBill[] = [];
+  signedBills: RepairBill[] = [];
   failedBills: RepairBill[] = [];
 
   filteredPendingBills: RepairBill[] = [];
   filteredFailedBills: RepairBill[] = [];
   filteredProcessedBills: RepairBill[] = [];
   filteredCompletedBills: RepairBill[] = [];
-
+  filteredSignedBills: RepairBill[] = [];
   searchTerm: string = '';  // For the search bar
 
   newBill: RepairBill = {
@@ -29,7 +30,8 @@ export class DashboardComponent implements OnInit {
     status: 'pending',
     failure_reason: '',
     ticket_number: '',
-    notes: ''
+    notes: '',
+    envelope_id: ''
   };
 
   editBill: RepairBill | null = null;
@@ -41,6 +43,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadPendingBills();
+    this.loadSignedBills();
     this.loadCompletedBills();
     this.loadProcessedBills();
     this.loadFailedBills();
@@ -90,6 +93,16 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  // Load signed bills
+  loadSignedBills(): void {
+    this.repairBillService.getBillsByStatus('signed').subscribe((data: RepairBill[]) => {
+      this.signedBills = this.sortByUpdatedAt(data);
+      this.filteredSignedBills = [...this.signedBills];  // Explicitly set filteredSignedBills
+      // If you need to apply filters based on search term, call filterBills()
+      this.filterBills();  // Optional
+    });
+  }
+
   // Filter bills globally based on search term
   filterBills(): void {
     const search = this.searchTerm.toLowerCase();
@@ -97,6 +110,10 @@ export class DashboardComponent implements OnInit {
     if (search.length > 0) {
       // Filter each stage separately based on search term
       this.filteredPendingBills = this.pendingBills.filter(bill =>
+        bill.so_number.toLowerCase().includes(search) || bill.rma_number.toLowerCase().includes(search)
+      );
+
+      this.filteredSignedBills = this.signedBills.filter(bill =>
         bill.so_number.toLowerCase().includes(search) || bill.rma_number.toLowerCase().includes(search)
       );
 
@@ -123,7 +140,9 @@ export class DashboardComponent implements OnInit {
     this.filteredFailedBills = [...this.failedBills];
     this.filteredProcessedBills = [...this.processedBills];
     this.filteredCompletedBills = [...this.completedBills];
+    this.filteredSignedBills = [...this.signedBills];  // Add this line
   }
+  
 
   // Get the filtered bills for the active tab
   getFilteredBillsForTab(tab: string): RepairBill[] {
@@ -147,18 +166,21 @@ export class DashboardComponent implements OnInit {
     if (this.searchTerm.length === 0) {
       this.resetFilteredBills();
     }
-    
-    // Fetch bills only if the list is empty (optional, for optimization)
-    if (tab === 'pending' && this.pendingBills.length === 0) {
+  
+    // Always fetch bills when the tab is activated
+    if (tab === 'pending') {
       this.loadPendingBills();
-    } else if (tab === 'completed' && this.completedBills.length === 0) {
+    } else if (tab === 'signed') {
+      this.loadSignedBills();
+    } else if (tab === 'completed') {
       this.loadCompletedBills();
-    } else if (tab === 'processed' && this.processedBills.length === 0) {
+    } else if (tab === 'processed') {
       this.loadProcessedBills();
-    } else if (tab === 'failed' && this.failedBills.length === 0) {
+    } else if (tab === 'failed') {
       this.loadFailedBills();
     }
   }
+  
 
   // Add a new repair bill
   addBill(): void {
@@ -234,6 +256,7 @@ export class DashboardComponent implements OnInit {
   // Helper method to remove a bill from all lists based on id
   removeFromAllLists(id: number): void {
     this.pendingBills = this.pendingBills.filter(bill => bill.id !== id);
+    this.signedBills = this.signedBills.filter(bill => bill.id !== id);
     this.completedBills = this.completedBills.filter(bill => bill.id !== id);
     this.processedBills = this.processedBills.filter(bill => bill.id !== id);
     this.failedBills = this.failedBills.filter(bill => bill.id !== id);
@@ -241,7 +264,10 @@ export class DashboardComponent implements OnInit {
 
   // Move the edited bill to the correct list based on status
   moveBillToCorrectList(bill: RepairBill): void {
-    if (bill.status === 'completed') {
+    if (bill.status === 'signed') {
+      this.signedBills.push(bill);
+      this.signedBills = this.sortByUpdatedAt(this.signedBills);  // Sort after pushing the bill
+    } else if (bill.status === 'completed') {
       this.completedBills.push(bill);
       this.completedBills = this.sortByUpdatedAt(this.completedBills);  // Sort after pushing the bill
     } else if (bill.status === 'processed') {

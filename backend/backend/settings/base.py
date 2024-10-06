@@ -14,6 +14,8 @@ from pathlib import Path
 import os
 print(f"Settings module: {os.getenv('DJANGO_SETTINGS_MODULE')}")
 
+DOCUSIGN_CLIENT_SECRET = os.getenv('3f434510-9ac9-4548-83ab-a57f8eda0d21')
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 

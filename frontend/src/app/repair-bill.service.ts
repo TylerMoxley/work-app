@@ -16,6 +16,7 @@ export interface RepairBill {
   dateCreated?: string;
   updated_at?: string;
   ticket_number?: string;
+  envelope_id?: string;
 }
 
 @Injectable({

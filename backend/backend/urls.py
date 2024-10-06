@@ -22,6 +22,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
+from bills import views
 
 def home_view(request):
     return HttpResponse("<h1>Welcome to the Home Page</h1>")
@@ -34,4 +35,6 @@ urlpatterns = [
     path('api/', include('bills.urls')),
     path('zendesk/', include('zendesk.urls')),
     path('', home_view),
+    path('docusign-webhook/', views.docusign_webhook, name='docusign_webhook'),
+
 ]

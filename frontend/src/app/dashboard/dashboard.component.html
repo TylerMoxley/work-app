@@ -6,6 +6,9 @@
       <li (click)="setActiveTab('pending')" [class.active]="activeTab === 'pending'">
         Pending <span class="badge">{{ filteredPendingBills.length }}</span>
       </li>
+      <li (click)="setActiveTab('signed')" [class.active]="activeTab === 'signed'">
+        Signed <span class="badge">{{ filteredSignedBills.length }}</span>
+      </li>
       <li (click)="setActiveTab('processed')" [class.active]="activeTab === 'processed'">
         Processed <span class="badge">{{ filteredProcessedBills.length }}</span>
       </li>
@@ -35,6 +38,10 @@
 
     <div *ngIf="activeTab === 'pending'">
       <app-repair-table [bills]="filteredPendingBills" (editBill)="openEditModal($event)"></app-repair-table>
+    </div>
+    
+    <div *ngIf="activeTab === 'signed'">
+      <app-repair-table [bills]="filteredSignedBills" (editBill)="openEditModal($event)"></app-repair-table>
     </div>
     
     <div *ngIf="activeTab === 'failed'">
@@ -120,6 +127,12 @@
     </select>
   </div>
 
+  <!-- Envelope ID -->
+<div class="form-group">
+  <label for="envelope_id">Envelope ID</label>
+  <input type="text" [(ngModel)]="newBill.envelope_id" name="envelope_id" />
+</div>
+
 
   <!-- Notes Field -->
   <div class="form-group">
@@ -190,6 +203,11 @@
           <!-- <option value="Device not repairable">Device not repairable</option>
           <option value="RMA expired">RMA expired</option> -->
         </select>
+      </div>
+
+      <div class="form-group">
+        <label for="envelope_id">Envelope ID</label>
+        <input type="text" [(ngModel)]="editBill!.envelope_id" name="envelope_id" />
       </div>
 
       <div class="form-group">
