@@ -16,6 +16,7 @@ export class RepairTableComponent {
   }
 
   // Row click handler
+  //Don't think this is used, was from when I tried to add a clickable row
   onRowClick(bill: any): void {
     this.showDetails.emit(bill);
   }

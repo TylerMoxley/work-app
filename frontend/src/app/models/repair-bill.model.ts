@@ -1,4 +1,5 @@
 // src/app/models/repair-bill.model.ts
+//Can maybe delete this code; I think it's from an old version of the app that I didn't end up using
 export interface RepairBill {
     id: number;
     so_number: string;
