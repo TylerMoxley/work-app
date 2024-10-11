@@ -8,6 +8,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RepairTableComponent } from './repair-table/repair-table.component';  // Import the table component
 import { TimeAgoPipe } from './time-ago.pipe';  // Correct import for the pipe
+import { NzButtonModule } from 'ng-zorro-antd/button';
+import { NzInputModule } from 'ng-zorro-antd/input';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -21,7 +25,11 @@ import { TimeAgoPipe } from './time-ago.pipe';  // Correct import for the pipe
   imports: [
     BrowserModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NzButtonModule,
+    NzInputModule,
+    NzFormModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     provideHttpClient()

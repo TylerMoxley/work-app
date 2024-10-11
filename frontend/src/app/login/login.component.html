@@ -1,16 +1,24 @@
 <div class="login-container">
   <div class="login-box">
-    <h2>Login</h2>
-    <form (ngSubmit)="login()" #loginForm="ngForm" class="login-form">
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input type="text" id="username" name="username" [(ngModel)]="username" required>
+    <!-- <h2>Login</h2> -->
+    <form nz-form (ngSubmit)="login()" #loginForm="ngForm" class="login-form">
+      <div nz-form-item>
+        <div nz-form-label>
+          <label for="username">Username</label>
+        </div>
+        <div nz-form-control>
+          <input nz-input type="text" id="username" name="username" [(ngModel)]="username" required>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" [(ngModel)]="password" required>
+      <div nz-form-item>
+        <div nz-form-label>
+          <label for="password">Password</label>
+        </div>
+        <div nz-form-control>
+          <input nz-input type="password" id="password" name="password" [(ngModel)]="password" required>
+        </div>
       </div>
-      <button type="submit" [disabled]="!loginForm.valid" class="login-button">Login</button>
+      <button nz-button type="submit" [disabled]="!loginForm.valid" class="login-button">Login</button>
     </form>
   </div>
 </div>
