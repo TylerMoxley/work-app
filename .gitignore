@@ -18,3 +18,5 @@ work-app/
 
 # Angular cache
 frontend/.angular/
+
+node_modules/
